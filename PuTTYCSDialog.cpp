@@ -232,7 +232,7 @@ void CPuTTYCSDialog::LoadPreferences()
 
    m_csaCmdHistory.RemoveAll();
 
-   for ( iLoop = 0;
+   for ( int iLoop = 0;
       iLoop < PUTTYCS_PREF_CMDHISTORY_MAX_SIZE; iLoop++ )
    {  
       CString csAttribute;
@@ -415,7 +415,7 @@ void CPuTTYCSDialog::SavePreferences()
     * Command history
     */ 
 
-   for ( iLoop = 0;
+   for ( int iLoop = 0;
       iLoop < PUTTYCS_PREF_CMDHISTORY_MAX_SIZE; iLoop++ )
    {
       CString csAttribute;
@@ -580,7 +580,7 @@ BEGIN_MESSAGE_MAP(CPuTTYCSDialog, CDialog)
    ON_BN_CLICKED(IDC_PREFERENCES_BUTTON, OnPreferencesButton)
    ON_BN_CLICKED(IDC_SCRIPT_BUTTON, OnScriptButton)
    ON_BN_CLICKED(IDC_SEND_BUTTON, OnSendButton)  
-   ON_MESSAGE(WM_USER_TNI_MESSAGE, OnTrayNotify)   
+   //ON_MESSAGE(WM_USER_TNI_MESSAGE, OnTrayNotify)   
    ON_WM_HELPINFO()   	   
    ON_BN_CLICKED(IDC_CMDHISTORYCLEAR_BUTTON, OnCmdHistoryClearButton)
    ON_COMMAND(IDMI_SYSTRAYOPEN_MENUITEM, OnOpenMenuItem)   
@@ -1298,7 +1298,10 @@ void CPuTTYCSDialog::OnTileButton()
 
          for ( iLoop = 0; iLoop < iTotal; iLoop++ )
          {   
-            MovePuttyWnd((CWnd*) m_obaWindows.GetAt(iLoop), (iX + rectWorkArea.left), (iY + rectWorkArea.top), iSizeX, iSizeY - 20);
+             CWnd* pWnd = (CWnd*) m_obaWindows.GetAt(iLoop);
+             int posX = (iX + rectWorkArea.left);
+             int posY = (iY + rectWorkArea.top);
+            MovePuttyWnd(pWnd, posX ,posY , iSizeX, iSizeY);
 
             iX += (iSizeX);
          
@@ -1341,9 +1344,7 @@ void CPuTTYCSDialog::OnTileButton()
 
              for (iRow = 1; iRow <= iRows && iWndIndex < iTotal; iRow++, iLoop++)
              {                     
-                MovePuttyWnd((CWnd*) m_obaWindows.GetAt(iWndIndex), iX, iY,
-                   (iSizeX - ((GetSystemMetrics(SM_CXSIZEFRAME) * 2) + GetSystemMetrics(SM_CXVSCROLL))),
-                   (iSizeY - (GetSystemMetrics(SM_CYSIZE) + (GetSystemMetrics(SM_CYSIZEFRAME) * 2))));
+                MovePuttyWnd((CWnd*) m_obaWindows.GetAt(iWndIndex), iX, iY, iSizeX , iSizeY) ;
               
                 iY += iSizeY;
 
@@ -2621,7 +2622,7 @@ void CPuTTYCSDialog::MovePuttyWnd(CWnd* pWnd, int iX, int iY, int iSizeX, int iS
       {
          ::SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
          ::ShowWindow(hWnd, SW_HIDE);
-         ::SetWindowPos(hWnd, NULL, iX, iY, 0, 0, SWP_NOSIZE);               
+         ::SetWindowPos(hWnd, NULL, iX, iY, iSizeX, iSizeY,NULL);
          ::SendMessage(hWnd, WM_ENTERSIZEMOVE, 0, 0);
          ::SendMessage(hWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(iSizeX, iSizeY));
          ::SendMessage(hWnd, WM_EXITSIZEMOVE, 0, 0);

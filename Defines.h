@@ -53,6 +53,8 @@
  *             Updated cascade logic.
  *             Added post send transition delay.
  *             Added --script command line option.
+ * 05/23/2023: Fix window resize no longer working.  P. Miller
+ *             Fix CTRL+C CTRL+D.
  */
 
 #if !defined(DEFINES_H__INCLUDED_)
@@ -60,8 +62,8 @@
 
 #define PUTTYCS_APP_NAME                         _T( "PuTTYCS" )
 
-#define PUTTYCS_VERSION                          _T( "1.8.1" )
-#define PUTTYCS_VERSION_INT                      _T( "010801" )
+#define PUTTYCS_VERSION                          _T( "2023-05-23.0" )
+#define PUTTYCS_VERSION_INT                      _T( "202305230" )
 
 #define PUTTYCS_REGKEY_RUN                       _T( "Software\\Microsoft\\Windows\\CurrentVersion\\Run" )
 
@@ -185,9 +187,9 @@
 
 #define PUTTYCS_SENDKEY_BUTTON_CLEAR             _T( "^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m^m" ) 
 
-#define PUTTYCS_SENDKEY_BUTTON_BREAK             _T( "^C" )
+#define PUTTYCS_SENDKEY_BUTTON_BREAK             _T( "^c" )
 #define PUTTYCS_SENDKEY_BUTTON_ENDTELNET         _T( "^]" )
-#define PUTTYCS_SENDKEY_BUTTON_CTRLD             _T( "^D" )
+#define PUTTYCS_SENDKEY_BUTTON_CTRLD             _T( "^d" )
 #define PUTTYCS_SENDKEY_BUTTON_CTRLR             _T( "^R" )
 
 #define PUTTYCS_SENDKEY_BUTTON_ESCAPE            _T( "{ESC}" )
